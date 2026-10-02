@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+apps/api/.env
+apps/api/src/generated/
+apps/web/dist/
+*.tsbuildinfo
+.DS_Store

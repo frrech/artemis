@@ -1,0 +1,160 @@
+#root {
+  min-height: 100vh;
+}
+
+.page {
+  width: min(100% - 3rem, 68rem);
+  margin: 0 auto;
+}
+
+.topbar {
+  min-height: 5.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e1dc;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: #30231c;
+  font-size: 1.25rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border-radius: 0.7rem;
+  background: #5c3a2d;
+  color: #fff;
+}
+
+.topbar-label {
+  color: #615a54;
+  font-size: 0.95rem;
+}
+
+.welcome {
+  max-width: 48rem;
+  padding: clamp(4.5rem, 12vw, 8rem) 0 5rem;
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  color: #6d4938;
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  max-width: 12ch;
+  margin-bottom: 1.25rem;
+  color: #30231c;
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  letter-spacing: -0.045em;
+  line-height: 1.06;
+}
+
+.intro {
+  max-width: 39rem;
+  margin-bottom: 2rem;
+  color: #514a44;
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  line-height: 1.65;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 2.75rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid #d9d3cc;
+  border-radius: 0.5rem;
+  background: #fff;
+  color: #30231c;
+}
+
+.status-dot {
+  width: 0.65rem;
+  height: 0.65rem;
+  flex: none;
+  border-radius: 50%;
+  background: #9a5b20;
+}
+
+.next {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 2rem;
+  padding: 2.25rem;
+  border: 1px solid #e5e1dc;
+  border-radius: 0.9rem;
+  background: #fbf9f6;
+}
+
+.next h2 {
+  margin-bottom: 0.75rem;
+  color: #30231c;
+  font-size: clamp(1.35rem, 3vw, 1.8rem);
+}
+
+.next p {
+  max-width: 35rem;
+  margin-bottom: 0;
+  color: #514a44;
+  line-height: 1.65;
+}
+
+.next ul {
+  align-self: center;
+  margin: 0;
+  padding-left: 1.5rem;
+  color: #30231c;
+  line-height: 2;
+}
+
+footer {
+  padding: 2rem 0;
+  color: #615a54;
+  font-size: 0.9rem;
+}
+
+:focus-visible {
+  outline: 3px solid #9a5b20;
+  outline-offset: 3px;
+}
+
+@media (max-width: 42rem) {
+  .page {
+    width: min(100% - 2rem, 68rem);
+  }
+
+  .topbar-label {
+    max-width: 9rem;
+    text-align: right;
+  }
+
+  .welcome {
+    padding: 4.5rem 0;
+  }
+
+  .next {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+}
