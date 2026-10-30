@@ -28,7 +28,11 @@ describe('AppController (e2e)', () => {
       .expect({ status: 'ok', service: 'artemis-api' });
   });
 
+  it('requires authentication for product data', () => {
+    return request(app.getHttpServer()).get('/api/products').expect(401);
+  });
+
   afterEach(async () => {
-    await app.close();
+    if (app) await app.close();
   });
 });
