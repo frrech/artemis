@@ -16,7 +16,10 @@
     "test:e2e": "npm --workspace @artemis/api run test:e2e",
     "db:generate": "npm --workspace @artemis/api run db:generate",
     "db:migrate": "npm --workspace @artemis/api run db:migrate",
-    "db:studio": "npm --workspace @artemis/api run db:studio"
+    "db:studio": "npm --workspace @artemis/api run db:studio",
+    "db:generate:postgres": "npm --workspace @artemis/api run db:generate:postgres",
+    "db:migrate:postgres": "npm --workspace @artemis/api run db:migrate:postgres",
+    "db:studio:postgres": "npm --workspace @artemis/api run db:studio:postgres"
   },
   "devDependencies": {
     "concurrently": "^9.2.1"
