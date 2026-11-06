@@ -79,27 +79,30 @@ frontend em cada push e pull request. Os testes e2e atuais substituem o Prisma
 por um mock e verificam somente a resposta de saúde e a exigência de
 autenticação; eles não testam integração real com banco de dados.
 
-### Publicar o frontend no Cloudflare Pages
+### Publicar o frontend na Vercel
 
-O job `deploy-pages` do workflow `.github/workflows/ci.yml` publica o frontend
-após todas as verificações passarem em um push para `main` ou execução manual
-do workflow. Antes da primeira publicação:
+Importe o repositório GitHub na Vercel. A configuração em `vercel.json` usa a
+raiz do repositório para instalar as dependências do monorepo, compila o
+workspace `@artemis/web` e publica `apps/web/dist`. A Vercel fornece um endereço
+`*.vercel.app`; não é necessário ter domínio próprio. Cada push conectado à
+Vercel gera uma nova implantação, e pull requests podem gerar implantações de
+preview.
 
-1. Crie um projeto Cloudflare Pages chamado `artemis-web` no painel Cloudflare.
-2. Crie a variável de repositório `VITE_API_URL` em **Settings > Secrets and
-   variables > Actions > Variables**, com a URL base da API e o sufixo `/api`
-   (por exemplo, `https://api.exemplo.com/api`).
-3. Crie os secrets `CLOUDFLARE_ACCOUNT_ID` e `CLOUDFLARE_API_TOKEN`. O token
-   precisa da permissão **Account > Cloudflare Pages > Edit**.
-4. Configure `WEB_ORIGIN` na API com a origem publicada do site (por exemplo,
-   `https://artemis-web.pages.dev`) e permita essa origem no CORS.
+Antes da primeira implantação, configure a variável `VITE_API_URL` nas
+configurações do projeto Vercel com a URL pública da API e o sufixo `/api`
+(por exemplo, `https://api.exemplo.com/api`). A variável é incorporada ao
+bundle público durante a compilação e não deve conter secrets. Depois da
+primeira implantação, configure `WEB_ORIGIN` na API com a origem de produção
+exata fornecida pela Vercel (por exemplo, `https://artemis.vercel.app`) e
+permita essa origem no CORS. A configuração atual da API aceita uma única
+origem; implantações de preview precisam de uma configuração CORS adicional se
+também precisarem acessar a API.
 
-O workflow compila `apps/web` e envia `apps/web/dist` para Pages. O backend
-NestJS e o banco de dados não são hospedados pelo Pages: publique-os em um
-serviço compatível separadamente. Para produção, use PostgreSQL e configure a
-API com os secrets `DATABASE_URL`, `JWT_SECRET` e `INITIAL_SETUP_SECRET`; não
-use o banco SQLite local. A variável `VITE_API_URL` é incorporada ao bundle
-público durante a compilação e não deve conter secrets.
+A Vercel hospeda apenas o frontend. Publique o backend NestJS e o banco de dados
+separadamente. Para produção, use PostgreSQL e configure a API com
+`DATABASE_URL`, `JWT_SECRET` e `INITIAL_SETUP_SECRET`; não use o banco SQLite
+local. O workflow do GitHub Actions continua executando as verificações, mas a
+Vercel cuida das implantações do frontend.
 
 ## Autenticação e funcionalidades
 
