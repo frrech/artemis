@@ -74,13 +74,32 @@ Para PostgreSQL, use os equivalentes `npm run db:generate:postgres`,
 
 `npm run build`, `npm run lint`, `npm test` e `npm run test:e2e` executam as
 verificações disponíveis nos workspaces. O GitHub Actions executa lint,
-compilação, cobertura dos testes unitários da API e testes e2e em cada push e
-pull request. Os testes e2e atuais substituem o Prisma por um mock e verificam
-somente a resposta de saúde e a exigência de autenticação; eles não testam
-integração real com banco de dados. O frontend tem verificação de tipos na
-compilação, mas ainda não possui testes automatizados de componentes ou
-comportamento. A publicação automática não está configurada enquanto o destino
-de hospedagem não for escolhido.
+compilação, cobertura dos testes unitários da API, testes e2e e testes do
+frontend em cada push e pull request. Os testes e2e atuais substituem o Prisma
+por um mock e verificam somente a resposta de saúde e a exigência de
+autenticação; eles não testam integração real com banco de dados.
+
+### Publicar o frontend no Cloudflare Pages
+
+O job `deploy-pages` do workflow `.github/workflows/ci.yml` publica o frontend
+após todas as verificações passarem em um push para `main` ou execução manual
+do workflow. Antes da primeira publicação:
+
+1. Crie um projeto Cloudflare Pages chamado `artemis-web` no painel Cloudflare.
+2. Crie a variável de repositório `VITE_API_URL` em **Settings > Secrets and
+   variables > Actions > Variables**, com a URL base da API e o sufixo `/api`
+   (por exemplo, `https://api.exemplo.com/api`).
+3. Crie os secrets `CLOUDFLARE_ACCOUNT_ID` e `CLOUDFLARE_API_TOKEN`. O token
+   precisa da permissão **Account > Cloudflare Pages > Edit**.
+4. Configure `WEB_ORIGIN` na API com a origem publicada do site (por exemplo,
+   `https://artemis-web.pages.dev`) e permita essa origem no CORS.
+
+O workflow compila `apps/web` e envia `apps/web/dist` para Pages. O backend
+NestJS e o banco de dados não são hospedados pelo Pages: publique-os em um
+serviço compatível separadamente. Para produção, use PostgreSQL e configure a
+API com os secrets `DATABASE_URL`, `JWT_SECRET` e `INITIAL_SETUP_SECRET`; não
+use o banco SQLite local. A variável `VITE_API_URL` é incorporada ao bundle
+público durante a compilação e não deve conter secrets.
 
 ## Autenticação e funcionalidades
 
