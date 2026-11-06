@@ -73,7 +73,14 @@ Para PostgreSQL, use os equivalentes `npm run db:generate:postgres`,
 `npm run db:migrate:postgres` e `npm run db:studio:postgres`.
 
 `npm run build`, `npm run lint`, `npm test` e `npm run test:e2e` executam as
-verificações disponíveis nos workspaces.
+verificações disponíveis nos workspaces. O GitHub Actions executa lint,
+compilação, cobertura dos testes unitários da API e testes e2e em cada push e
+pull request. Os testes e2e atuais substituem o Prisma por um mock e verificam
+somente a resposta de saúde e a exigência de autenticação; eles não testam
+integração real com banco de dados. O frontend tem verificação de tipos na
+compilação, mas ainda não possui testes automatizados de componentes ou
+comportamento. A publicação automática não está configurada enquanto o destino
+de hospedagem não for escolhido.
 
 ## Autenticação e funcionalidades
 
