@@ -9,3 +9,4 @@ apps/api/src/generated/
 apps/web/dist/
 *.tsbuildinfo
 .DS_Store
+Artemis_Francisco.pdf
