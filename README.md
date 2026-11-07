@@ -79,30 +79,25 @@ frontend em cada push e pull request. Os testes e2e atuais substituem o Prisma
 por um mock e verificam somente a resposta de saúde e a exigência de
 autenticação; eles não testam integração real com banco de dados.
 
-### Publicar o frontend na Vercel
+### Publicar o frontend e a API na Vercel
 
-Importe o repositório GitHub na Vercel. A configuração em `vercel.json` usa a
-raiz do repositório para instalar as dependências do monorepo, compila o
-workspace `@artemis/web` e publica `apps/web/dist`. A Vercel fornece um endereço
-`*.vercel.app`; não é necessário ter domínio próprio. Cada push conectado à
-Vercel gera uma nova implantação, e pull requests podem gerar implantações de
-preview.
+Importe o repositório GitHub na Vercel usando a raiz do repositório como
+diretório do projeto. `vercel.json` gera o cliente Prisma para PostgreSQL,
+compila a API e o frontend, publica `apps/web/dist` e disponibiliza a API NestJS
+como uma função para as rotas `/api/*`. A Vercel fornece um endereço
+`*.vercel.app`; não é necessário ter domínio próprio. Pushes e pull requests
+conectados ao repositório podem gerar implantações de produção e preview.
 
-Antes da primeira implantação, configure a variável `VITE_API_URL` nas
-configurações do projeto Vercel com a URL pública da API e o sufixo `/api`
-(por exemplo, `https://api.exemplo.com/api`). A variável é incorporada ao
-bundle público durante a compilação e não deve conter secrets. Depois da
-primeira implantação, configure `WEB_ORIGIN` na API com a origem de produção
-exata fornecida pela Vercel (por exemplo, `https://artemis.vercel.app`) e
-permita essa origem no CORS. A configuração atual da API aceita uma única
-origem; implantações de preview precisam de uma configuração CORS adicional se
-também precisarem acessar a API.
+Configure `DATABASE_URL`, `JWT_SECRET` e `INITIAL_SETUP_SECRET` nas variáveis de
+ambiente do projeto Vercel. Use um banco PostgreSQL acessível pela Vercel; o
+SQLite local não é adequado para produção. Aplique as migrações PostgreSQL ao
+banco antes do primeiro uso. Configure `WEB_ORIGIN` com a origem de produção
+Vercel se forem necessárias requisições entre origens diferentes. Como o
+frontend usa `/api` por padrão, não é necessário definir `VITE_API_URL` quando
+frontend e API são publicados juntos na mesma origem.
 
-A Vercel hospeda apenas o frontend. Publique o backend NestJS e o banco de dados
-separadamente. Para produção, use PostgreSQL e configure a API com
-`DATABASE_URL`, `JWT_SECRET` e `INITIAL_SETUP_SECRET`; não use o banco SQLite
-local. O workflow do GitHub Actions continua executando as verificações, mas a
-Vercel cuida das implantações do frontend.
+O workflow do GitHub Actions continua executando as verificações do projeto; a
+Vercel cuida das implantações.
 
 ## Autenticação e funcionalidades
 
