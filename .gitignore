@@ -12,3 +12,5 @@ apps/api/prisma/dev.db-journal
 *.tsbuildinfo
 .DS_Store
 Artemis_Francisco.pdf
+.vercel
+.env*

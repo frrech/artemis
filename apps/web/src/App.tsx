@@ -850,7 +850,9 @@ function AuthPage({
     let mounted = true
     void request<{ registrationAvailable: boolean }>('/auth/setup')
       .then((status) => {
-        if (mounted) setRegistrationAvailable(status.registrationAvailable)
+        if (mounted){ 
+          setRegistrationAvailable(status.registrationAvailable)}
+          setRegistering(status.registrationAvailable)
       })
       .catch((caught: unknown) => {
         if (mounted) {
