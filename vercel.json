@@ -3,5 +3,15 @@
   "framework": "vite",
   "installCommand": "npm ci --include=dev --workspace=@artemis/api --workspace=@artemis/web --include-workspace-root",
   "buildCommand": "npm run db:generate:postgres --workspace=@artemis/api && npm run build --workspace=@artemis/api && npm run build --workspace=@artemis/web",
-  "outputDirectory": "apps/web/dist"
+  "outputDirectory": "apps/web/dist | apps/api/dist",
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/web/(.*)",
+      "dest": "/index.html"
+    }
+  ]
 }
